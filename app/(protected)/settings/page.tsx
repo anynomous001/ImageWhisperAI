@@ -1,10 +1,11 @@
 
 
 
-const SettingsPage =async () => {
-const session =await auth()
-    return (
-    <div>SettingsPage</div>
+const SettingsPage = async () => {
+  const session = await auth()
+  return (
+    <div>
+      SettingsPage</div>
   )
 }
 
