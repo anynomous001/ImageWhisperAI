@@ -2,23 +2,14 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import {
-    Cloud,
-    CreditCard,
     Github,
-    Keyboard,
     LifeBuoy,
     LogOut,
     Mail,
     MessageSquare,
-    Plus,
     PlusCircle,
-    Settings,
-    User,
-    UserPlus,
-    Users,
-} from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+} from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -37,7 +28,7 @@ import ToggleSwitch from './toggleSwitch'
 
 const Appbar = () => {
     return (
-        <div className='flex justify-between p-8 h-[50px] items-center  font-bold text-2xl' >
+        <div className='flex justify-between p-8 h-[50px] items-center  font-bold text-2xl'>
             <div>
                 Delta
             </div>
@@ -104,7 +95,6 @@ const Appbar = () => {
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Github />
                             <span>GitHub</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
