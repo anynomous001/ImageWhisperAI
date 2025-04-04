@@ -57,35 +57,27 @@ const Appbar = () => {
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <User />
                                 <span>Profile</span>
-                                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <CreditCard />
-                                <span>Billing</span>
-                                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                <div className='flex justify-between w-full'>
+                                    <span>Balance</span>
+                                    <span>1000</span>
+                                </div>
+
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <Settings />
-                                <span>Settings</span>
-                                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                                <span>Add Fund</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Keyboard />
-                                <span>Keyboard shortcuts</span>
-                                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                            </DropdownMenuItem>
+
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <Users />
-                                <span>Team</span>
+                                <span>About US </span>
                             </DropdownMenuItem>
                             <DropdownMenuSub>
                                 <DropdownMenuSubTrigger>
-                                    <UserPlus />
                                     <span>Invite users</span>
                                 </DropdownMenuSubTrigger>
                                 <DropdownMenuPortal>
@@ -107,9 +99,7 @@ const Appbar = () => {
                                 </DropdownMenuPortal>
                             </DropdownMenuSub>
                             <DropdownMenuItem>
-                                <Plus />
-                                <span>New Team</span>
-                                <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+                                <span>Contact Us</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
@@ -121,15 +111,10 @@ const Appbar = () => {
                             <LifeBuoy />
                             <span>Support</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem disabled>
-                            <Cloud />
-                            <span>API</span>
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                             <LogOut />
                             <span>Log out</span>
-                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
