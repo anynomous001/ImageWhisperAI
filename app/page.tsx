@@ -14,22 +14,30 @@ const page = () => {
         error,
         success,
         transformedImageUrl,
-        originalImageUrl
+        originalImageUrl,
+        uploaded
     }: any = useImageUpload();
 
 
 
     return (
-        <main className='flex flex-col bg-sky-950 h-screen w-[100w]  justify-center items-center'>
-            <ImageUpload onImageUpload={handleImageUpload} />
-            <ImageDisplay
-                originalImageUrl={originalImageUrl}
-                transformedImageUrl={transformedImageUrl}
-                isLoading={isLoading}
-                error={error}
-                reset={reset}
-                success={success}
-            />
+        <main className='flex  bg-sky-950 h-screen w-[100w] items-center justify-center '>
+            {
+                uploaded ? (
+                    <ImageDisplay
+                        originalImageUrl={originalImageUrl}
+                        transformedImageUrl={transformedImageUrl}
+                        isLoading={isLoading}
+                        error={error}
+                        reset={reset}
+                        success={success}
+                        uploaded={uploaded}
+                    />
+                ) : (
+                    <ImageUpload onImageUpload={handleImageUpload} />
+                )
+            }
+
         </main>
     )
 }

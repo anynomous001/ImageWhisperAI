@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef } from 'react';
+import { Button } from './ui/button';
 
 export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: File) => void }) {
     // This component allows users to upload an image by dragging and dropping it or by clicking to select a file.
@@ -39,45 +40,56 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
 
 
     return (
-        <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer mb-8 transition-colors
+        <div className="text-center flex flex-col items-center">
+
+            <div
+                className={`flex  justify-center items-center  w-[400px] h-[300px] border-2 border-dashed rounded-lg p-8 text-center cursor-pointer mb-8 transition-colors
         ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            onClick={handleButtonClick}
-        >
-            <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                className="hidden"
-            />
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={handleButtonClick}
+            >
+                <div>
 
-            <div className="flex flex-col items-center justify-center">
-                <svg
-                    className="w-12 h-12 text-gray-400 mb-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        className="hidden"
                     />
-                </svg>
 
-                <p className="text-lg font-medium">
-                    {isDragging ? 'Drop your image here' : 'Drag & drop your image here or click to browse'}
-                </p>
-                <p className="text-sm text-gray-500 mt-2">
-                    Supports: JPG, PNG, WEBP (max 10MB)
-                </p>
+                    <div className="flex flex-col items-center justify-center">
+                        <svg
+                            className="w-12 h-12 text-gray-400 mb-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                            />
+                        </svg>
+
+                        <p className="text-lg font-medium">
+                            {isDragging ? 'Drop your image here' : 'Drag & drop your image here or click to browse'}
+                        </p>
+                        <p className="text-sm text-gray-500 mt-2">
+                            Supports: JPG, PNG, WEBP (max 10MB)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="flex  gap-8">
+                <Button variant={"outline"} size={"lg"}  >Ghiblify</Button>
+                <Button variant={"outline"} size={"lg"}  >Calify</Button>
             </div>
         </div>
+
     );
 }

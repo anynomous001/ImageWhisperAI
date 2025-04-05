@@ -11,6 +11,7 @@ export interface UseImageUploadResult {
     reset: () => void
     handleImageUpload: (file: File) => void
     isLoading: boolean
+    uploaded: boolean
 }
 
 
@@ -24,8 +25,10 @@ export const useImageUpload = (): UseImageUploadResult => {
     const [transformedImageUrl, setTransformedImageUrl] = React.useState<string | null>(null)
     const [originalImageUrl, setOriginalImageUrl] = React.useState<string | null>(null)
     const [success, setSuccess] = React.useState<boolean>(false)
+    const [uploaded, setUploaded] = React.useState<boolean>(false)
 
     const handleImageUpload = (file: File): void => {
+        setUploaded(true)
 
         if (!file) {
             setError("Please upload a valid image file.");
@@ -95,6 +98,7 @@ export const useImageUpload = (): UseImageUploadResult => {
         setSuccess(false)
         setTransformedImageUrl(null)
         setOriginalImageUrl(null)
+        setUploaded(false)
     }
 
     return {
@@ -104,7 +108,8 @@ export const useImageUpload = (): UseImageUploadResult => {
         error,
         success,
         transformedImageUrl,
-        originalImageUrl
+        originalImageUrl,
+        uploaded
     }
 
 }

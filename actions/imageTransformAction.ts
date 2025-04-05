@@ -47,6 +47,13 @@ export const ImageTransformAction = async (formdata: FormData): Promise<ActionRe
         // });
 
         const response = await new Promise<{ data: [{ url: string }] }>((resolve) => {
+
+
+            setTimeout(() => {
+                // Simulate a successful response from OpenAI API
+                // Replace this with actual API call in production
+            }, 2000)
+
             resolve({
                 data: [
                     {
