@@ -13,9 +13,9 @@ const page = () => {
         isLoading,
         error,
         success,
-        transformedImageUrl,
         originalImageUrl,
-        uploaded
+        uploaded,
+        formdata
     }: any = useImageUpload();
 
 
@@ -26,7 +26,7 @@ const page = () => {
                 uploaded ? (
                     <ImageDisplay
                         originalImageUrl={originalImageUrl}
-                        transformedImageUrl={transformedImageUrl}
+                        transformedImageUrl={""}
                         isLoading={isLoading}
                         error={error}
                         reset={reset}
@@ -34,7 +34,11 @@ const page = () => {
                         uploaded={uploaded}
                     />
                 ) : (
-                    <ImageUpload onImageUpload={handleImageUpload} />
+                    <ImageUpload
+                        onImageUpload={handleImageUpload}
+                        formdata={formdata}
+                        reset={reset}
+                    />
                 )
             }
 

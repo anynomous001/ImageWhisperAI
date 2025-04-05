@@ -1,8 +1,9 @@
 'use client';
 import { useState, useRef } from 'react';
 import { Button } from './ui/button';
+import ButtonComponent from './button/buttonComponent';
 
-export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: File) => void }) {
+export default function ImageUpload({ onImageUpload, formdata, reset }: { onImageUpload: (file: File) => void, formdata: FormData, reset: () => void }) {
     // This component allows users to upload an image by dragging and dropping it or by clicking to select a file.
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef(null);
@@ -85,10 +86,7 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
                     </div>
                 </div>
             </div>
-            <div className="flex  gap-8">
-                <Button variant={"outline"} size={"lg"}  >Ghiblify</Button>
-                <Button variant={"outline"} size={"lg"}  >Calify</Button>
-            </div>
+            <ButtonComponent formdata={formdata} reset={reset} />
         </div>
 
     );

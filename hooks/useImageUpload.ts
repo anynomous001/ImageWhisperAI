@@ -6,12 +6,12 @@ import React from 'react'
 export interface UseImageUploadResult {
     error?: string | null,
     success?: boolean | null,
-    transformedImageUrl?: string | null
     originalImageUrl?: string | null
     reset: () => void
     handleImageUpload: (file: File) => void
     isLoading: boolean
-    uploaded: boolean
+    uploaded: boolean,
+    formdata: FormData
 }
 
 
@@ -22,10 +22,10 @@ export const useImageUpload = (): UseImageUploadResult => {
 
     const [isLoading, setIsLoading] = React.useState(false)
     const [error, setError] = React.useState<string | null>(null)
-    const [transformedImageUrl, setTransformedImageUrl] = React.useState<string | null>(null)
     const [originalImageUrl, setOriginalImageUrl] = React.useState<string | null>(null)
     const [success, setSuccess] = React.useState<boolean>(false)
     const [uploaded, setUploaded] = React.useState<boolean>(false)
+    const [formdata, setFormdata] = React.useState<FormData>(new FormData())
 
     const handleImageUpload = (file: File): void => {
         setUploaded(true)
@@ -50,7 +50,6 @@ export const useImageUpload = (): UseImageUploadResult => {
             setIsLoading(true)
             setError(null)
             setSuccess(false)
-            setTransformedImageUrl(null)
             setOriginalImageUrl(null)
 
 
@@ -60,28 +59,11 @@ export const useImageUpload = (): UseImageUploadResult => {
                 setOriginalImageUrl(e?.target.result)
             }
 
-            const formdata = new FormData()
             formdata.append("image", file)
+            setFormdata(formdata)
 
 
-            ImageTransformAction(formdata)
-                .then((response) => {
-                    if (response.success) {
-                        console.log(response)
-                        //@ts-ignore
-                        setTransformedImageUrl(response.transformedImageUrl)
-                        setSuccess(true)
-                    } else {
-                        setError(response.error || "An error occurred while processing the image.");
-                    }
-                })
-                .catch((error) => {
-                    setError("An error occurred while processing the image");
-                    console.error(error);
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            setIsLoading(false)
 
         } catch (error) {
 
@@ -96,7 +78,6 @@ export const useImageUpload = (): UseImageUploadResult => {
         setIsLoading(false)
         setError(null)
         setSuccess(false)
-        setTransformedImageUrl(null)
         setOriginalImageUrl(null)
         setUploaded(false)
     }
@@ -105,9 +86,9 @@ export const useImageUpload = (): UseImageUploadResult => {
         handleImageUpload,
         reset,
         isLoading,
+        formdata,
         error,
         success,
-        transformedImageUrl,
         originalImageUrl,
         uploaded
     }

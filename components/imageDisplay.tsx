@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from './ui/button'
+import ButtonComponent from './button/buttonComponent'
 
 interface ImageDisplayProps {
     originalImageUrl: string | null,
@@ -41,11 +42,7 @@ const ImageDisplay = ({
                 </div>
 
             </div>
-            <div className='flex justify-center items-center space-x-10'>
-                <Button variant={"secondary"} size={"lg"} onClick={() => window.open(originalImageUrl || '', '_blank')}>Download Original</Button>
-                <Button variant={"secondary"} size={"lg"} onClick={() => window.open(transformedImageUrl || '', '_blank')}>Download Transformed</Button>
-                <Button variant={"secondary"} size={"lg"} onClick={reset} >Reset</Button>
-            </div>
+            <ButtonComponent />
         </div>
     )
 }
