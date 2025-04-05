@@ -1,3 +1,5 @@
+"use client"
+
 import ImageDisplay from '@/components/imageDisplay';
 import ImageUpload from '@/components/imageUpload'
 import { useImageUpload } from '@/hooks/useImageUpload';
@@ -18,7 +20,7 @@ const page = () => {
 
 
     return (
-        <main className='bg-sky-950 h-screen w-[100w] flex justify-center items-center'>
+        <main className='flex flex-col bg-sky-950 h-screen w-[100w]  justify-center items-center'>
             <ImageUpload onImageUpload={handleImageUpload} />
             <ImageDisplay
                 originalImageUrl={originalImageUrl}

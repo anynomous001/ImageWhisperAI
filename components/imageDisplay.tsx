@@ -18,9 +18,22 @@ const ImageDisplay = ({
     reset,
     success,
 }: ImageDisplayProps) => {
-    return (
-        <div>
 
+    console.log("originalImageUrl", originalImageUrl)
+    console.log("transformedImageUrl", transformedImageUrl)
+
+    return (
+        <div className='flex justify-between '>
+            <div className='w-[200px] h-[200px]'>
+                {isLoading ? <p>Loading...</p> : error ? <p className='text-red-500'>{error}</p>
+                    : originalImageUrl ? <img src={originalImageUrl} alt="Original" className='w-full h-full object-cover' /> : null}
+
+            </div>
+            <div className='w-[200px] h-[200px]'>
+                {isLoading ? <p>Loading...</p> : error ? <p className='text-red-500'>{error}</p>
+                    : transformedImageUrl ? <img src={transformedImageUrl} alt="Original" className='w-full h-full object-cover' /> : null}
+
+            </div>
 
         </div>
     )

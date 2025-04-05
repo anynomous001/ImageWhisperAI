@@ -38,25 +38,32 @@ export const ImageTransformAction = async (formdata: FormData): Promise<ActionRe
         const buffer = Buffer.from(bytes);
 
         // Call OpenAI API to transform the image to Ghibli style
-        const response = await openai.images.edit({
-            image: buffer,
-            prompt: "Transform this image into Studio Ghibli art style with soft pastel colors, expressive characters, detailed natural environments, and hand-drawn animation aesthetic",
-            n: 1,
-            size: "1024x1024",
-            response_format: "url",
-        });
+        // const response = await openai.images.edit({
+        //     image: buffer,
+        //     prompt: "Transform this image into Studio Ghibli art style with soft pastel colors, expressive characters, detailed natural environments, and hand-drawn animation aesthetic",
+        //     n: 1,
+        //     size: "1024x1024",
+        //     response_format: "url",
+        // });
+
+        const response = await new Promise<{ data: [{ url: string }] }>((resolve) => {
+            resolve({
+                data: [
+                    {
+                        url: "https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2018/01/10150148/iStock-5184662221.jpg"
+                    }
+                ]
+            });
+        }); // Added missing parenthesis here
 
         // Refresh the page data
-        revalidatePath('/');
+        // revalidatePath('/');
 
         // Return success with the transformed image URL
         return {
             success: true,
             transformedImageUrl: response.data[0].url
         };
-
-
-
 
     } catch (error: any) {
         console.error('Error in image transformation:', error);
@@ -75,8 +82,5 @@ export const ImageTransformAction = async (formdata: FormData): Promise<ActionRe
         };
 
     }
-
-
-
 
 }

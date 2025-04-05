@@ -9,7 +9,7 @@ export interface UseImageUploadResult {
     transformedImageUrl?: string | null
     originalImageUrl?: string | null
     reset: () => void
-    handleImageUpload: (file: File) => Promise<void>
+    handleImageUpload: (file: File) => void
     isLoading: boolean
 }
 
@@ -17,7 +17,7 @@ export interface UseImageUploadResult {
 
 
 
-export const useImageUpload = (): Promise<UseImageUploadResult> => {
+export const useImageUpload = (): UseImageUploadResult => {
 
     const [isLoading, setIsLoading] = React.useState(false)
     const [error, setError] = React.useState<string | null>(null)
@@ -25,7 +25,7 @@ export const useImageUpload = (): Promise<UseImageUploadResult> => {
     const [originalImageUrl, setOriginalImageUrl] = React.useState<string | null>(null)
     const [success, setSuccess] = React.useState<boolean>(false)
 
-    const handleImageUpload = async (file: File): Promise<void> => {
+    const handleImageUpload = (file: File): void => {
 
         if (!file) {
             setError("Please upload a valid image file.");
@@ -61,15 +61,24 @@ export const useImageUpload = (): Promise<UseImageUploadResult> => {
             formdata.append("image", file)
 
 
-            const response = await ImageTransformAction(formdata)
-            setIsLoading(false)
-            console.log(response)
-            if (response.success && response.transformedImageUrl) {
-                setTransformedImageUrl(response.transformedImageUrl);
-            } else {
-                setError(response.error || "Failed to transform image");
-            }
-            setSuccess(response.success)
+            ImageTransformAction(formdata)
+                .then((response) => {
+                    if (response.success) {
+                        console.log(response)
+                        //@ts-ignore
+                        setTransformedImageUrl(response.transformedImageUrl)
+                        setSuccess(true)
+                    } else {
+                        setError(response.error || "An error occurred while processing the image.");
+                    }
+                })
+                .catch((error) => {
+                    setError("An error occurred while processing the image");
+                    console.error(error);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
 
         } catch (error) {
 
@@ -89,7 +98,6 @@ export const useImageUpload = (): Promise<UseImageUploadResult> => {
     }
 
     return {
-        //@ts-ignore
         handleImageUpload,
         reset,
         isLoading,
