@@ -62,7 +62,7 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
 
         // Prepare the request payload
         const requestBody = JSON.stringify({
-            "key": "BjqYOwuPC2QzIJmbwNbXihSdfLGzj2EjQG9TaylCfHGJ6w43w7R5l7BFo4aa",
+            "key": process.env.KEY,
             "prompt": "Transform this image into Studio Ghibli art style with soft pastel colors, expressive characters, detailed natural environments, and hand-drawn animation aesthetic",
             "negative_prompt": "bad quality, distorted, unrealistic",
             "init_image": imageUrl, // Use the base64 image
