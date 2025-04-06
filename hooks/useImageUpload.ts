@@ -1,17 +1,24 @@
 "use client"
 
-import { ImageTransformAction } from '@/actions/imageTransformAction'
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    uploadImageRequest,
+    uploadImageSuccess,
+    uploadImageFailure,
+    transformImageRequest,
+    transformImageSuccess,
+    transformImageFailure,
+    uploadFormDataSuccess,
+    uploadFormDataFailure,
+    resetImageState
+} from '@/redux/actions/imageActions';
+import { ImageTransformAction } from '@/actions/imageTransformAction';
+import { useState } from 'react';
+import { initialState } from '@/redux/reducers/imageReducers';
+import { RootState } from '@/redux/store';
 
 export interface UseImageUploadResult {
-    error?: string | null,
-    success?: boolean | null,
-    originalImageUrl?: string | null
-    reset: () => void
     handleImageUpload: (file: File) => void
-    isLoading: boolean
-    uploaded: boolean,
-    formdata: FormData
 }
 
 
@@ -20,77 +27,56 @@ export interface UseImageUploadResult {
 
 export const useImageUpload = (): UseImageUploadResult => {
 
-    const [isLoading, setIsLoading] = React.useState(false)
-    const [error, setError] = React.useState<string | null>(null)
-    const [originalImageUrl, setOriginalImageUrl] = React.useState<string | null>(null)
-    const [success, setSuccess] = React.useState<boolean>(false)
-    const [uploaded, setUploaded] = React.useState<boolean>(false)
-    const [formdata, setFormdata] = React.useState<FormData>(new FormData())
+    const dispatch = useDispatch();
+    const imageState = useSelector((state: RootState) => state.image);
+    const [formData, setFormData] = useState(new FormData());
 
     const handleImageUpload = (file: File): void => {
-        setUploaded(true)
 
         if (!file) {
-            setError("Please upload a valid image file.");
+            dispatch(uploadImageFailure("Please upload a valid image file."));
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            setError("File size exceeds the limit of 5MB.");
+        if (file.size > 5 * 1024 * 1024) {
+            dispatch(uploadImageFailure("File size exceeds the limit of 5MB."));
             return;
         }
 
         if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-            setError("Please upload a valid image file format (jpg, jpeg, png, gif).");
+            dispatch(uploadImageFailure("Please upload a valid image file format (jpg, jpeg, png, gif)."));
             return;
         }
 
 
         try {
-            setIsLoading(true)
-            setError(null)
-            setSuccess(false)
-            setOriginalImageUrl(null)
+            dispatch(uploadImageRequest());
 
 
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async (e: any) => {
-                setOriginalImageUrl(e?.target.result)
+                dispatch(uploadImageSuccess(e.target.result));
             }
 
-            formdata.append("image", file)
-            setFormdata(formdata)
+            formData.append("image", file)
 
+            dispatch(uploadFormDataSuccess(formData))
 
-            setIsLoading(false)
 
         } catch (error) {
-
-            setIsLoading(false)
-            setError("An error occurred while uploading the image");
+            dispatch(uploadImageFailure("An error occurred while uploading the image"));
             console.error(error);
-
         }
     }
 
     const reset = () => {
-        setIsLoading(false)
-        setError(null)
-        setSuccess(false)
-        setOriginalImageUrl(null)
-        setUploaded(false)
+        dispatch(resetImageState());
     }
 
     return {
+        ...imageState,
         handleImageUpload,
-        reset,
-        isLoading,
-        formdata,
-        error,
-        success,
-        originalImageUrl,
-        uploaded
     }
 
 }

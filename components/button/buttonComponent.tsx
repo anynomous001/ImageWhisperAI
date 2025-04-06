@@ -2,46 +2,47 @@
 
 import React from 'react'
 import { Button } from '../ui/button'
-
+import {
+    transformImageRequest,
+    transformImageSuccess,
+    transformImageFailure,
+    resetImageState,
+} from '@/redux/actions/imageActions'
 import { ImageTransformAction } from '@/actions/imageTransformAction'
+import { RootState } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 
-interface ButtonComponentProps {
-    reset?: () => void
-    formdata?: FormData
-}
 
-const ButtonComponent = ({ reset, formdata }: ButtonComponentProps) => {
+const ButtonComponent = () => {
 
     const [isTransformed, setIsTransformed] = React.useState(false)
-    const [isLoading, setIsLoading] = React.useState(false)
-    const [error, setError] = React.useState<string | null>(null)
-    const [success, setSuccess] = React.useState<boolean>(false)
-    const [transformedImageUrl, setTransformedImageUrl] = React.useState<string | null>(null)
+    const dispatch = useDispatch()
+    const {
+        isTransforming,
+        transformError,
+        transformSuccess,
+        transformedImageUrl,
+        formdata
+    } = useSelector((state: RootState) => state.image)
 
     const ghibliHandler = () => {
         setIsTransformed(true)
         if (formdata) {
-            setIsLoading(true)
+            dispatch(transformImageRequest())
+
             ImageTransformAction(formdata)
                 .then((response) => {
-                    if (response.success) {
-                        console.log(response)
-                        //@ts-ignore
-                        setTransformedImageUrl(response.transformedImageUrl)
-                        setSuccess(true)
+                    if (response.success && response.transformedImageUrl) {
+                        dispatch(transformImageSuccess(response.transformedImageUrl))
                     } else {
-                        setError(response.error || "An error occurred while processing the image.");
+                        dispatch(transformImageFailure(response.error || "An error occurred while processing the image."))
                     }
                 })
                 .catch((error) => {
-                    setError("An error occurred while processing the image");
-                    console.error(error);
+                    dispatch(transformImageFailure("An error occurred while processing the image"))
+                    console.error(error)
                 })
-                .finally(() => {
-                    setIsLoading(false);
-                });
         }
-
     }
 
     return (
@@ -50,7 +51,7 @@ const ButtonComponent = ({ reset, formdata }: ButtonComponentProps) => {
                 isTransformed ? (
                     <div className='flex justify-center items-center space-x-10'>
                         <Button variant={"secondary"} size={"lg"} onClick={() => window.open(transformedImageUrl || '', '_blank')}>Download Transformed</Button>
-                        <Button variant={"secondary"} size={"lg"} onClick={reset} >Reset</Button>
+                        <Button variant={"secondary"} size={"lg"} onClick={() => dispatch(resetImageState())} >Reset</Button>
                     </div>
                 ) : (
                     <div className="flex  gap-8">

@@ -86,7 +86,7 @@ export default function ImageUpload({ onImageUpload, formdata, reset }: { onImag
                     </div>
                 </div>
             </div>
-            <ButtonComponent formdata={formdata} reset={reset} />
+            <ButtonComponent />
         </div>
 
     );
