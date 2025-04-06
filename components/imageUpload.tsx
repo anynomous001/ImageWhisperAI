@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import ButtonComponent from './button/buttonComponent';
 
-export default function ImageUpload({ onImageUpload, formdata, reset }: { onImageUpload: (file: File) => void, formdata: FormData, reset: () => void }) {
+export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: File) => void }) {
     // This component allows users to upload an image by dragging and dropping it or by clicking to select a file.
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef(null);

@@ -29,8 +29,8 @@ const ImageDisplay = () => {
         uploaded
     } = useSelector((state: RootState) => state.image);
 
-    //     console.log("originalImageUrl", originalImageUrl)
-    // console.log("transformedImageUrl", transformedImageUrl)
+    console.log("originalImageUrl : ", originalImageUrl)
+    console.log("transformedImageUrl : ", transformedImageUrl)
 
     return (
         <div className="flex flex-col  w-full h-full">

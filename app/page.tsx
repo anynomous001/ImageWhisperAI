@@ -4,18 +4,14 @@ import ImageDisplay from '@/components/imageDisplay';
 import ImageUpload from '@/components/imageUpload'
 import { useImageUpload } from '@/hooks/useImageUpload';
 import React from 'react'
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 const page = () => {
+    const { uploaded } = useSelector((state: RootState) => state.image)
 
     const {
-        handleImageUpload,
-        reset,
-        isLoading,
-        error,
-        success,
-        originalImageUrl,
-        uploaded,
-        formdata
+        handleImageUpload
     }: any = useImageUpload();
 
 
@@ -24,20 +20,10 @@ const page = () => {
         <main className='flex  bg-sky-950 h-screen w-[100w] items-center justify-center '>
             {
                 uploaded ? (
-                    <ImageDisplay
-                        originalImageUrl={originalImageUrl}
-                        transformedImageUrl={""}
-                        isLoading={isLoading}
-                        error={error}
-                        reset={reset}
-                        success={success}
-                        uploaded={uploaded}
-                    />
+                    <ImageDisplay />
                 ) : (
                     <ImageUpload
                         onImageUpload={handleImageUpload}
-                        formdata={formdata}
-                        reset={reset}
                     />
                 )
             }

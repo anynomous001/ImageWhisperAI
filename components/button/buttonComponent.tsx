@@ -15,22 +15,23 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const ButtonComponent = () => {
 
-    const [isTransformed, setIsTransformed] = React.useState(false)
     const dispatch = useDispatch()
     const {
+        uploaded,
+        isUploading,
         isTransforming,
         transformError,
         transformSuccess,
+        originalImageUrl,
         transformedImageUrl,
         formdata
     } = useSelector((state: RootState) => state.image)
 
     const ghibliHandler = () => {
-        setIsTransformed(true)
         if (formdata) {
             dispatch(transformImageRequest())
 
-            ImageTransformAction(formdata)
+            ImageTransformAction(formdata, originalImageUrl)
                 .then((response) => {
                     if (response.success && response.transformedImageUrl) {
                         dispatch(transformImageSuccess(response.transformedImageUrl))
@@ -48,15 +49,15 @@ const ButtonComponent = () => {
     return (
         <div>
             {
-                isTransformed ? (
+                transformSuccess ? (
                     <div className='flex justify-center items-center space-x-10'>
-                        <Button variant={"secondary"} size={"lg"} onClick={() => window.open(transformedImageUrl || '', '_blank')}>Download Transformed</Button>
+                        <Button variant={"secondary"} size={"lg"} onClick={() => window.open(transformedImageUrl || '', '_blank')}>{`${isTransforming ? 'Processing...' : 'Download Transformed'}`}</Button>
                         <Button variant={"secondary"} size={"lg"} onClick={() => dispatch(resetImageState())} >Reset</Button>
                     </div>
                 ) : (
-                    <div className="flex  gap-8">
-                        <Button variant={"outline"} size={"lg"} onClick={ghibliHandler}  >Ghiblify</Button>
-                        <Button variant={"outline"} size={"lg"}  >Calify</Button>
+                    <div className="flex justify-center items-center space-x-10">
+                        <Button variant={"outline"} size={"lg"} onClick={ghibliHandler} disabled={!uploaded}  >{`${isTransforming ? 'Processing...' : 'Ghilbify'}`}</Button>
+                        <Button variant={"outline"} size={"lg"} disabled={!uploaded} >Calify</Button>
                     </div>
 
                 )
