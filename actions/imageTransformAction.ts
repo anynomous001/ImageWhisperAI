@@ -3,6 +3,7 @@
 
 import { openai } from '@/lib/config';
 import { revalidatePath } from 'next/cache';
+import sharp from 'sharp'
 
 export interface ActionResult {
     success: boolean
@@ -29,10 +30,31 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
         }
 
         // Convert file to base64 for API consumption
-        const bytes = await imageFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const base64Image = buffer.toString('base64');
-        const imageUrl = `data:image/${imageFile.type.split('/')[1]};base64,${base64Image}`;
+        // Inside your ImageTransformAction function
+
+        // Convert directly from FormData to PNG
+        const pngBuffer = await sharp(await imageFile.arrayBuffer())
+            .toFormat('png')
+            .toBuffer();
+
+        // Create base64 URL
+        const imageUrl = `data:image/png;base64,${pngBuffer.toString('base64')}`;
+
+        console.log('Processed PNG URL:', imageUrl);
+        // Log the original image URL for debugging
+        // console.log('Original Image URL:', originalImageUrl);
+        // console.log('Image File:', imageFile);
+        // console.log('Image File Size:', imageFile.size);
+        // console.log('Image File Type:', imageFile.type);
+        // console.log('Image File Name:', imageFile.name);
+        // console.log('Image File ArrayBuffer:', arrayBuffer);
+        // console.log('Image File Buffer:', pngBuffer);
+        // console.log('Image File Buffer Length:', pngBuffer.length);
+        // console.log('Image File Buffer Base64:', base64Image);
+        // console.log('Image File Buffer Base64 Length:', base64Image.length);
+        // console.log('Image File Buffer Base64 URL:', imageUrl);
+
+
 
         // Set up headers for the modelslab API request
         const myHeaders = new Headers();
@@ -43,7 +65,7 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
             "key": "BjqYOwuPC2QzIJmbwNbXihSdfLGzj2EjQG9TaylCfHGJ6w43w7R5l7BFo4aa",
             "prompt": "Transform this image into Studio Ghibli art style with soft pastel colors, expressive characters, detailed natural environments, and hand-drawn animation aesthetic",
             "negative_prompt": "bad quality, distorted, unrealistic",
-            "init_image": originalImageUrl, // Use the base64 image
+            "init_image": imageUrl, // Use the base64 image
             "width": "512",
             "height": "512",
             "samples": "1",
