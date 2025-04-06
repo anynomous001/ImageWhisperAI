@@ -41,18 +41,9 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
         const imageUrl = `data:image/png;base64,${pngBuffer.toString('base64')}`;
 
         console.log('Processed PNG URL:', imageUrl);
-        // Log the original image URL for debugging
-        // console.log('Original Image URL:', originalImageUrl);
-        // console.log('Image File:', imageFile);
-        // console.log('Image File Size:', imageFile.size);
-        // console.log('Image File Type:', imageFile.type);
-        // console.log('Image File Name:', imageFile.name);
-        // console.log('Image File ArrayBuffer:', arrayBuffer);
-        // console.log('Image File Buffer:', pngBuffer);
-        // console.log('Image File Buffer Length:', pngBuffer.length);
-        // console.log('Image File Buffer Base64:', base64Image);
-        // console.log('Image File Buffer Base64 Length:', base64Image.length);
-        // console.log('Image File Buffer Base64 URL:', imageUrl);
+        /**
+         * need s3 deployment for that you need credit/debit card
+         */
 
 
 
