@@ -1,92 +1,99 @@
 'use client';
+
 import { useState, useRef } from 'react';
-import { Button } from './ui/button';
 import ButtonComponent from './button/buttonComponent';
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { Button } from '@/components/ui/button';
+import { Upload, ImageIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+
+
 
 export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: File) => void }) {
-    // This component allows users to upload an image by dragging and dropping it or by clicking to select a file.
-    const [isDragging, setIsDragging] = useState(false);
-    const fileInputRef = useRef(null);
 
-    const handleDragOver = (e: any) => {
-        e.preventDefault();
-        setIsDragging(true);
-    };
+    const {
+        uploaded,
+        isUploading,
+        isAnalysis,
+        analysisError,
+        analysisSuccess,
+        originalImageUrl,
+        analyzedImageText,
+        formdata
+    } = useSelector((state: RootState) => state.image)
 
-    const handleDragLeave = () => {
-        setIsDragging(false);
-    };
+    const [isDragActive, setIsDragActive] = useState(false);
 
-    const handleDrop = (e: any) => {
-        e.preventDefault();
-        setIsDragging(false);
-
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            onImageUpload(e.dataTransfer.files[0]);
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        setIsDragActive(false);
+        if (acceptedFiles && acceptedFiles.length > 0) {
+            onImageUpload(acceptedFiles[0]);
         }
-    };
+    }, [onImageUpload]);
 
-    const handleFileChange = (e: any) => {
-        if (e.target.files && e.target.files[0]) {
-            onImageUpload(e.target.files[0]);
-        }
-    };
+    const { getRootProps, getInputProps, isDragReject } = useDropzone({
+        onDrop,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+        },
+        maxFiles: 1,
+        onDragEnter: () => setIsDragActive(true),
+        onDragLeave: () => setIsDragActive(false),
+    });
 
-    const handleButtonClick = () => {
-        if (fileInputRef.current) {
-            // Trigger the file input click event to open the file dialog
-            (fileInputRef.current as HTMLInputElement).click();
-        }
-    }
+
+
 
 
     return (
-        <div className="text-center flex flex-col items-center">
+        <div
+            {...getRootProps()}
+            className={cn(
+                'image-upload-area flex flex-col items-center justify-center cursor-pointer',
+                isDragActive && 'drag-active',
+                isDragReject && 'border-destructive'
+            )}
+        >
+            <input {...getInputProps()} disabled={isUploading} />
 
-            <div
-                className={`flex  justify-center items-center  w-[400px] h-[300px] border-2 border-dashed rounded-lg p-8 text-center cursor-pointer mb-8 transition-colors
-        ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400'}`}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={handleButtonClick}
-            >
-                <div>
-
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        accept="image/*"
-                        className="hidden"
-                    />
-
-                    <div className="flex flex-col items-center justify-center">
-                        <svg
-                            className="w-12 h-12 text-gray-400 mb-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                            />
-                        </svg>
-
-                        <p className="text-lg font-medium">
-                            {isDragging ? 'Drop your image here' : 'Drag & drop your image here or click to browse'}
-                        </p>
-                        <p className="text-sm text-gray-500 mt-2">
-                            Supports: JPG, PNG, WEBP (max 10MB)
-                        </p>
+            <div className="mb-4 p-3 rounded-full bg-primary/20">
+                {isUploading ? (
+                    <div className="animate-spin">
+                        <Upload size={24} className="text-primary" />
                     </div>
-                </div>
+                ) : (
+                    <ImageIcon size={24} className="text-primary" />
+                )}
             </div>
-            <ButtonComponent />
+
+            <h3 className="text-xl font-medium mb-2">Upload an image</h3>
+            <p className="text-muted-foreground mb-4 max-w-md">
+                Drag and drop your image here, or click to browse
+            </p>
+
+            {isDragReject && (
+                <p className="text-destructive mb-4">
+                    This file type is not supported. Please use JPG, PNG, GIF, or WebP.
+                </p>
+            )}
+
+            <Button
+                variant="secondary"
+                disabled={isUploading}
+                className="relative overflow-hidden"
+            >
+                <span className={isUploading ? 'opacity-0' : 'opacity-100'}>
+                    Select Image
+                </span>
+                {isUploading && (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                        <div className="h-5 w-5 border-2 border-primary border-r-transparent rounded-full animate-spin" />
+                    </span>
+                )}
+            </Button>
         </div>
 
     );

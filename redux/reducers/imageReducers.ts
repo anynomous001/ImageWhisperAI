@@ -3,9 +3,12 @@ import {
     UPLOAD_IMAGE_REQUEST,
     UPLOAD_IMAGE_SUCCESS,
     UPLOAD_IMAGE_FAILURE,
-    TRANSFORM_IMAGE_REQUEST,
-    TRANSFORM_IMAGE_SUCCESS,
-    TRANSFORM_IMAGE_FAILURE,
+    // TRANSFORM_IMAGE_REQUEST,
+    // TRANSFORM_IMAGE_SUCCESS,
+    // TRANSFORM_IMAGE_FAILURE,
+    ANALYSIS_IMAGE_FAILURE,
+    ANALYSIS_IMAGE_REQUEST,
+    ANALYSIS_IMAGE_SUCCESS,
     RESET_IMAGE_STATE,
     UPLOAD_FORMDATA_SUCCESS,
     UPLOAD_FORMDATA_FAILURE
@@ -13,14 +16,14 @@ import {
 
 
 export const initialState = {
-    isTransforming: false,
+    isAnalysis: false,
     isUploading: false,
     uploadError: null,
-    transformError: null,
+    analysisError: null,
     originalImageUrl: null,
-    transformedImageUrl: null,
+    analyzedImageText: null,
     uploadSuccess: false,
-    transformSuccess: false,
+    analysisSuccess: false,
     uploaded: false,
     formdata: FormData,
     uploadFormdataError: null,
@@ -53,26 +56,26 @@ const imageReducer = (state = initialState, action: any) => {
                 uploadSuccess: false,
                 uploaded: false
             };
-        case TRANSFORM_IMAGE_REQUEST:
+        case ANALYSIS_IMAGE_REQUEST:
             return {
                 ...state,
-                isTransforming: true,
-                transformError: null,
-                transformSuccess: false
+                isAnalysis: true,
+                analysisError: null,
+                analysisSuccess: false
             };
-        case TRANSFORM_IMAGE_SUCCESS:
+        case ANALYSIS_IMAGE_SUCCESS:
             return {
                 ...state,
-                isTransforming: false,
-                transformedImageUrl: action.payload,
-                transformSuccess: true
+                isAnalysis: false,
+                analyzedImageText: action.payload,
+                analysisSuccess: true
             }
-        case TRANSFORM_IMAGE_FAILURE:
+        case ANALYSIS_IMAGE_FAILURE:
             return {
                 ...state,
-                isTransforming: false,
-                transformError: action.payload,
-                transformSuccess: false
+                isAnalysis: false,
+                analysisError: action.payload,
+                analysisSuccess: false
             };
         case UPLOAD_FORMDATA_SUCCESS:
             return {

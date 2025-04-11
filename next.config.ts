@@ -1,6 +1,11 @@
 module.exports = {
   experimental: {
     serverActions: true,
+    experimental: {
+      serverActions: {
+        bodySizeLimit: '2mb',
+      },
+    },
   },
   // Allow serving files from public directory
   async headers() {
