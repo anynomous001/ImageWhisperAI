@@ -28,9 +28,7 @@ const openai = new OpenAI({
 export const ImageTransformAction = async (formdata: FormData, originalImageUrl: string): Promise<ActionResult> => {
     try {
         const imageFile = formdata.get("image") as File;
-        // Get the array buffer from the file
         const arrayBuffer = await imageFile.arrayBuffer();
-        // Convert array buffer to base64
         const base64Image = Buffer.from(arrayBuffer).toString('base64');
 
         if (!base64Image) {
@@ -38,27 +36,28 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
         }
 
 
-        const response = await openai.responses.create({
-            model: "gpt-4o-mini",
-            input: [
-                {
-                    role: "user",
-                    content: [
-                        { type: "input_text", text: "what's in this image?" },
-                        {
-                            type: "input_image",
-                            image_url: `data:image/jpeg;base64,${base64Image}`,
-                            detail: "high",
-                        },
-                    ],
-                },
-            ],
-        });
+        // const response = await openai.responses.create({
+        //     model: "gpt-4o-mini",
+        //     input: [
+        //         {
+        //             role: "user",
+        //             content: [
+        //                 { type: "input_text", text: "you are an expert image describer use your creative sense with a mix of humour but don't use any sign or text modifier." },
+        //                 {
+        //                     type: "input_image",
+        //                     image_url: `data:image/jpeg;base64,${base64Image}`,
+        //                     detail: "high",
+        //                 },
+        //             ],
+        //         },
 
-        console.log(response.output_text);
+        //     ],
+        // });
+
+        // console.log(response.output_text);
 
 
-        const analyzedImageText = response.output_text
+        const analyzedImageText = 'jvdnjvn'
 
 
 

@@ -32,9 +32,9 @@ const Appbar = () => {
             <div>
                 Delta
             </div>
-            <div>
+            {/* <div>
                 <ToggleSwitch />
-            </div>
+            </div> */}
             <div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

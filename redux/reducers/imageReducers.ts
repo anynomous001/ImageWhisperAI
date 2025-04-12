@@ -9,9 +9,7 @@ import {
     ANALYSIS_IMAGE_FAILURE,
     ANALYSIS_IMAGE_REQUEST,
     ANALYSIS_IMAGE_SUCCESS,
-    RESET_IMAGE_STATE,
-    UPLOAD_FORMDATA_SUCCESS,
-    UPLOAD_FORMDATA_FAILURE
+    RESET_IMAGE_STATE
 } from '@/redux/actions/imageActions';
 
 
@@ -25,8 +23,6 @@ export const initialState = {
     uploadSuccess: false,
     analysisSuccess: false,
     uploaded: false,
-    formdata: FormData,
-    uploadFormdataError: null,
 }
 
 
@@ -76,17 +72,6 @@ const imageReducer = (state = initialState, action: any) => {
                 isAnalysis: false,
                 analysisError: action.payload,
                 analysisSuccess: false
-            };
-        case UPLOAD_FORMDATA_SUCCESS:
-            return {
-                ...state,
-                formdata: action.payload,
-                uploadFormdataError: null
-            };
-        case UPLOAD_FORMDATA_FAILURE:
-            return {
-                ...state,
-                uploadFormdataError: action.payload
             };
 
         case RESET_IMAGE_STATE:

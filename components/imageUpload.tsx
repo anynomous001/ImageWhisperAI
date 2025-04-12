@@ -62,14 +62,14 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
             <div className="mb-4 p-3 rounded-full bg-primary/20">
                 {isUploading ? (
                     <div className="animate-spin">
-                        <Upload size={24} className="text-primary" />
+                        <Upload size={24} className="text-white text-primary" />
                     </div>
                 ) : (
-                    <ImageIcon size={24} className="text-primary" />
+                    <ImageIcon size={60} className="p-3 rounded-full bg-slate-100 bg-opacity-20 hover:bg-opacity-35 text-white text-primary" />
                 )}
             </div>
 
-            <h3 className="text-xl font-medium mb-2">Upload an image</h3>
+            <h3 className="text-xl text-white font-medium mb-2">Upload an image</h3>
             <p className="text-muted-foreground mb-4 max-w-md">
                 Drag and drop your image here, or click to browse
             </p>

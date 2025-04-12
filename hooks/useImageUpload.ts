@@ -11,8 +11,6 @@ import {
     analysisImageRequest,
     analysisImageSuccess,
     analysisImageFailure,
-    uploadFormDataSuccess,
-    uploadFormDataFailure,
     resetImageState
 } from '@/redux/actions/imageActions';
 import { ImageTransformAction } from '@/actions/imageTransformAction';
@@ -20,19 +18,19 @@ import { useState } from 'react';
 import { initialState } from '@/redux/reducers/imageReducers';
 import { RootState } from '@/redux/store';
 
+let currentFormData: FormData | null = null;
+
 export interface UseImageUploadResult {
-    handleImageUpload: (file: File) => void
+    handleImageUpload: (file: File) => void;
+    getCurrentFormData: () => FormData | null;
+    reset: () => void;
 }
-
-
-
-
 
 export const useImageUpload = (): UseImageUploadResult => {
 
     const dispatch = useDispatch();
-    const imageState = useSelector((state: RootState) => state.image);
-    const [formData, setFormData] = useState(new FormData());
+    // const {
+    // } = useSelector((state: RootState) => state.image);
 
     const handleImageUpload = (file: File): void => {
 
@@ -62,9 +60,13 @@ export const useImageUpload = (): UseImageUploadResult => {
                 dispatch(uploadImageSuccess(e.target.result));
             }
 
-            formData.append("image", file)
+            try {
+                currentFormData = new FormData();
+                currentFormData.append("image", file);
+            } catch (error) {
+                console.log(error)
+            }
 
-            dispatch(uploadFormDataSuccess(formData))
 
 
         } catch (error) {
@@ -73,13 +75,21 @@ export const useImageUpload = (): UseImageUploadResult => {
         }
     }
 
+
+    const getCurrentFormData = (): FormData | null => {
+        return currentFormData;
+    };
+
     const reset = () => {
         dispatch(resetImageState());
+        currentFormData = null;
+
     }
 
     return {
-        ...imageState,
         handleImageUpload,
+        getCurrentFormData,
+        reset
     }
 
 }

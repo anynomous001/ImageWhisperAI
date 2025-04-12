@@ -8,8 +8,6 @@ export const ANALYSIS_IMAGE_REQUEST = "ANALYSIS_IMAGE_REQUEST";
 export const ANALYSIS_IMAGE_SUCCESS = "ANALYSIS_IMAGE_SUCCESS";
 export const ANALYSIS_IMAGE_FAILURE = "ANALYSIS_IMAGE_FAILURE";
 
-export const UPLOAD_FORMDATA_SUCCESS = "UPLOAD_FORMDATA_SUCCESS";
-export const UPLOAD_FORMDATA_FAILURE = "UPLOAD_FORMDATA_FAILURE";
 export const RESET_IMAGE_STATE = "RESET_IMAGE_STATE";
 
 export const uploadImageRequest = () => ({
@@ -38,16 +36,11 @@ export const analysisImageFailure = (error: string) => ({
     type: ANALYSIS_IMAGE_FAILURE,
     payload: error,
 });
+
+
 export const resetImageState = () => ({
     type: RESET_IMAGE_STATE,
 });
 
 
-export const uploadFormDataSuccess = (formdata: FormData) => ({
-    type: UPLOAD_FORMDATA_SUCCESS,
-    payload: formdata,
-});
-export const uploadFormDataFailure = (error: string) => ({
-    type: UPLOAD_FORMDATA_FAILURE,
-    payload: error,
-});
+

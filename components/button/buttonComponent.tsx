@@ -11,6 +11,7 @@ import {
 import { ImageTransformAction } from '@/actions/imageTransformAction'
 import { RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import { useImageUpload } from '@/hooks/useImageUpload'
 
 
 const ButtonComponent = () => {
@@ -24,17 +25,30 @@ const ButtonComponent = () => {
         analysisSuccess,
         originalImageUrl,
         analyzedImageText,
-        formdata
     } = useSelector((state: RootState) => state.image)
+
+    const { getCurrentFormData } = useImageUpload(); // Use the hook to access FormData
 
     const ghibliHandler = () => {
         dispatch(analysisImageRequest())
+
+
+
+        // Get the FormData from the hook
+        const formdata = getCurrentFormData();
+
+        if (!formdata || !originalImageUrl) {
+            dispatch(analysisImageFailure("No image data available"));
+            return;
+        }
 
         ImageTransformAction(formdata, originalImageUrl)
             .then((response) => {
                 console.log(response)
                 if (response.success && response.analyzedImageText) {
+                    console.log(isAnalysis, analysisSuccess)
                     dispatch(analysisImageSuccess(response.analyzedImageText))
+                    console.log(isAnalysis, analysisSuccess)
                 } else {
                     dispatch(analysisImageFailure(response.error || "An error occurred while processing the image."))
                 }
@@ -48,22 +62,16 @@ const ButtonComponent = () => {
 
     return (
         <div>
-            {
-                analysisSuccess ? (
-                    <div className='flex justify-center items-center space-x-10'>
-                        <Button variant={"secondary"} size={"lg"} onClick={() => window.open(analyzedImageText || '', '_blank')}>{`${analyzedImageText ? 'Processing...' : 'Download Transformed'}`}</Button>
-                        <Button variant={"secondary"} size={"lg"} onClick={() => dispatch(resetImageState())} >Reset</Button>
-                    </div>
-                ) : (
-                    <div className="flex justify-center items-center space-x-10">
-                        <Button variant={"outline"} size={"lg"} onClick={ghibliHandler} disabled={!uploaded}  >{`${isAnalysis ? 'Processing...' : 'Ghilbify'}`}</Button>
-                        <Button variant={"outline"} size={"lg"} disabled={!uploaded} >Calify</Button>
-                    </div>
-
-                )
-
-            }
-
+            <div className="flex justify-center items-center space-x-10">
+                <Button
+                    variant={"outline"}
+                    size={"lg"}
+                    onClick={ghibliHandler}
+                    disabled={!uploaded}
+                >
+                    {isAnalysis ? 'Processing...' : 'Analysis'}
+                </Button>
+            </div>
         </div>
     )
 }
