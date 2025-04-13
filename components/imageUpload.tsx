@@ -22,7 +22,6 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
         analysisSuccess,
         originalImageUrl,
         analyzedImageText,
-        formdata
     } = useSelector((state: RootState) => state.image)
 
     const [isDragActive, setIsDragActive] = useState(false);
@@ -44,57 +43,62 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
         onDragLeave: () => setIsDragActive(false),
     });
 
-
-
-
-
     return (
-        <div
-            {...getRootProps()}
-            className={cn(
-                'image-upload-area flex flex-col items-center justify-center cursor-pointer',
-                isDragActive && 'drag-active',
-                isDragReject && 'border-destructive'
-            )}
-        >
-            <input {...getInputProps()} disabled={isUploading} />
+        <div className='w-full flex flex-col items-center justify-center'>
 
-            <div className="mb-4 p-3 rounded-full bg-primary/20">
-                {isUploading ? (
-                    <div className="animate-spin">
-                        <Upload size={24} className="text-white text-primary" />
+            <div className='w-[50%] py-4 flex flex-col items-center justify-center  border-2 border-solid  border-slate-400/30  rounded-lg'>
+
+                <div
+                    {...getRootProps()}
+                    className={cn(
+                        'w-[90%]  image-upload-area flex flex-col items-center justify-center cursor-pointer border-2 border-dashed border-bold border-gray-400 hover:border-[#905BF6] rounded-lg p-8 m-4 hover:cursor-pointer  hover:bg-slate-200/10 ',
+                        isDragActive && 'drag-active border-primary',
+                        isDragReject && 'border-destructive',
+
+                    )}
+                >
+                    <input {...getInputProps()} disabled={isUploading} />
+
+                    <div className="mb-4 p-3 rounded-full bg-primary/20">
+                        {isUploading ? (
+                            <div className="animate-spin">
+                                <Upload size={24} className="text-white text-primary" />
+                            </div>
+                        ) : (
+                            <ImageIcon size={60} className=" p-3 rounded-full bg-slate-100 bg-opacity-20 hover:bg-opacity-35 text-[#905BF6]" />
+                        )}
                     </div>
-                ) : (
-                    <ImageIcon size={60} className="p-3 rounded-full bg-slate-100 bg-opacity-20 hover:bg-opacity-35 text-white text-primary" />
-                )}
+
+                    <h3 className="text-xl text-white font-medium mb-2 hover:bg-clip-text hover:text-transparent hover:bg-hero-gradient hover:animate-gradient-move">Upload an image</h3>
+                    <p className="text-muted-foreground mb-4 max-w-md">
+                        Drag and drop your image here, or click to browse
+                    </p>
+
+                    {isDragReject && (
+                        <p className="text-destructive mb-4">
+                            This file type is not supported. Please use JPG, PNG, GIF, or WebP.
+                        </p>
+                    )}
+
+                    <Button
+                        variant="secondary"
+                        disabled={isUploading}
+                        className="relative overflow-hidden"
+                    >
+                        <span className={isUploading ? 'opacity-0' : 'opacity-100'}>
+                            Select Image
+                        </span>
+                        {isUploading && (
+                            <span className="absolute inset-0 flex items-center justify-center">
+                                <div className="h-5 w-5 border-2 border-primary border-r-transparent rounded-full animate-spin" />
+                            </span>
+                        )}
+                    </Button>
+                </div>
             </div>
 
-            <h3 className="text-xl text-white font-medium mb-2">Upload an image</h3>
-            <p className="text-muted-foreground mb-4 max-w-md">
-                Drag and drop your image here, or click to browse
-            </p>
-
-            {isDragReject && (
-                <p className="text-destructive mb-4">
-                    This file type is not supported. Please use JPG, PNG, GIF, or WebP.
-                </p>
-            )}
-
-            <Button
-                variant="secondary"
-                disabled={isUploading}
-                className="relative overflow-hidden"
-            >
-                <span className={isUploading ? 'opacity-0' : 'opacity-100'}>
-                    Select Image
-                </span>
-                {isUploading && (
-                    <span className="absolute inset-0 flex items-center justify-center">
-                        <div className="h-5 w-5 border-2 border-primary border-r-transparent rounded-full animate-spin" />
-                    </span>
-                )}
-            </Button>
         </div>
+
 
     );
 }
