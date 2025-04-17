@@ -104,7 +104,7 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
 
 
         if (!analyzedImageText) {
-            return { success: false, error: "Failed to generate variation image." };
+            return { success: false, error: "Failed to analyze  image." };
         }
 
 

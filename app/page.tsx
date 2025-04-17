@@ -8,12 +8,12 @@ import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
 import { Badge } from '@/components/ui/badge';
 
-const page = () => {
+const Page = () => {
     const { uploaded } = useSelector((state: RootState) => state.image)
 
     const {
         handleImageUpload
-    }: any = useImageUpload();
+    } = useImageUpload();
 
     return (
         <div className="min-h-screen pt-16 w-full bg-black">
@@ -24,7 +24,7 @@ const page = () => {
                         <Badge variant="secondary" className="rounded-full">AI</Badge>
                     </div>
                     <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                        Upload an image and get a detailed AI-powered description of what's in it
+                        Upload an image and get a detailed AI-powered description of what`&apos;`s in it
                     </p>
                 </div>            {
                     uploaded ? (
@@ -37,7 +37,7 @@ const page = () => {
                 }
                 <div className="mt-12 text-center text-sm text-muted-foreground">
                     <p>
-                        PictureWhisper uses OpenAI's Vision API to generate descriptions of your images.
+                        PictureWhisper uses OpenAI`&apos;`s Vision API to generate descriptions of your images.
                         <br />
                         Your images are processed securely and are not stored on our servers.
                     </p>
@@ -47,5 +47,5 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
 

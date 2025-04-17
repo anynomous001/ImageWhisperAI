@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import ButtonComponent from './button/buttonComponent';
+import { useState } from 'react';
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
@@ -10,18 +9,9 @@ import { cn } from '@/lib/utils';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-
-
 export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: File) => void }) {
-
     const {
-        uploaded,
         isUploading,
-        isAnalysis,
-        analysisError,
-        analysisSuccess,
-        originalImageUrl,
-        analyzedImageText,
     } = useSelector((state: RootState) => state.image)
 
     const [isDragActive, setIsDragActive] = useState(false);
@@ -98,7 +88,5 @@ export default function ImageUpload({ onImageUpload }: { onImageUpload: (file: F
             </div>
 
         </div>
-
-
     );
 }

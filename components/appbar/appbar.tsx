@@ -1,14 +1,11 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
 import {
-    Github,
     LifeBuoy,
     LogOut,
     Mail,
     MessageSquare,
     PlusCircle,
-
 } from "lucide-react"
 import {
     DropdownMenu,
@@ -18,13 +15,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import ToggleSwitch from './toggleSwitch'
 
 const Appbar = () => {
     return (

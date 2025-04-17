@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Appbar from "@/components/appbar/appbar";
 import { ReduxProvider } from '@/provider';
 import { Toaster } from 'sonner';
 
@@ -31,7 +30,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          {/* <Appbar /> */}
 
           {children}
           <Toaster richColors position="top-center" />

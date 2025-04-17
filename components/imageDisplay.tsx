@@ -1,25 +1,13 @@
 import React from 'react'
 import ButtonComponent from './button/buttonComponent'
 import { RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetImageState } from '@/redux/actions/imageActions'
+import { useSelector } from 'react-redux';
 import { RefreshCw, Copy } from 'lucide-react';
 import { Button } from './ui/button';
 import { useImageUpload } from '@/hooks/useImageUpload';
-
-// interface ImageDisplayProps {
-//     originalImageUrl: string | null,
-//     transformedImageUrl: string | null,
-//     isLoading: boolean,
-//     error: string | null,
-//     success: boolean | null,
-//     uploaded: boolean
-// }
+import Image from 'next/image';
 
 const ImageDisplay = () => {
-
-    const dispatch = useDispatch()
-
     const {
         isAnalysis,
         isUploading,
@@ -27,11 +15,8 @@ const ImageDisplay = () => {
         analysisError,
         originalImageUrl,
         analyzedImageText,
-        uploadSuccess,
         analysisSuccess,
-        uploaded,
     } = useSelector((state: RootState) => state.image);
-
 
     const { reset } = useImageUpload()
 
@@ -51,7 +36,7 @@ const ImageDisplay = () => {
             <div className='flex flex-col items-center justify-center pt-[40px] w-full'>
                 <div className='w-[90%] max-w-[900px] aspect-[4/3] border-2 border-gray-300 rounded-lg text-center cursor-pointer mb-8 transition-colors'>
                     {isUploading ? <p>Loading...</p> : uploadError ? <p className='text-red-500'>{uploadError}</p>
-                        : originalImageUrl ? <img src={originalImageUrl} alt="Original" className='w-full h-full object-contain' /> : null}
+                        : originalImageUrl ? <Image src={originalImageUrl} alt="Original" className='w-full h-full object-contain' /> : null}
                 </div>
 
                 <div className='w-[90%] max-w-[900px] flex  flex-col border-2 border-gray-300 rounded-lg text-center p-6 mb-8 transition-colors min-h-[200px]'>

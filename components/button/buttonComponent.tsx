@@ -6,35 +6,26 @@ import {
     analysisImageRequest,
     analysisImageSuccess,
     analysisImageFailure,
-    resetImageState,
 } from '@/redux/actions/imageActions'
 import { ImageTransformAction } from '@/actions/imageTransformAction'
 import { RootState } from '@/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { useImageUpload } from '@/hooks/useImageUpload'
 
-
 const ButtonComponent = () => {
-
     const dispatch = useDispatch()
     const {
         uploaded,
-        isUploading,
         isAnalysis,
-        analysisError,
         analysisSuccess,
         originalImageUrl,
-        analyzedImageText,
     } = useSelector((state: RootState) => state.image)
 
-    const { getCurrentFormData } = useImageUpload(); // Use the hook to access FormData
+    const { getCurrentFormData } = useImageUpload();
 
     const ghibliHandler = () => {
         dispatch(analysisImageRequest())
 
-
-
-        // Get the FormData from the hook
         const formdata = getCurrentFormData();
 
         if (!formdata || !originalImageUrl) {
