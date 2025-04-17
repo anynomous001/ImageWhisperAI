@@ -34,8 +34,10 @@ console.log(process.env.UPSTASH_REDIS_TOKEN)
 //     token: process.env.UPSTASH_REDIS_TOKEN || '',
 // });
 
-const redis = Redis.fromEnv();
-
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN, // Use standard token, not RO token
+})
 // Create a new ratelimiter that allows 5 requests per 24 hours
 const ratelimit = new Ratelimit({
     redis,
@@ -82,7 +84,7 @@ export const ImageTransformAction = async (formdata: FormData, originalImageUrl:
                 {
                     role: "user",
                     content: [
-                        { type: "input_text", text: "you are an expert image describer but don't use any sign or text modifier. don't use '*' to make points bold use simple patterns of written english, don't use newline explain image in one para" },
+                        { type: "input_text", text: "you are an expert image describer but don't use any sign or text modifier. don't use '*' to make points bold use simple patterns of written english, don't use newline explain image in one para, if it's character/place anyhting that is known for something indentify it then describe. " },
                         {
                             type: "input_image",
                             image_url: `data:image/jpeg;base64,${base64Image}`,
