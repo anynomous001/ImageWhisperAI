@@ -45,7 +45,7 @@ const ButtonComponent = () => {
                 }
             })
             .catch((error) => {
-                dispatch(analysisImageFailure("An error occurred while processing the image"))
+                dispatch(analysisImageFailure("No worries! Just need to refresh my token to get back on track."))
                 console.error(error)
             })
 
