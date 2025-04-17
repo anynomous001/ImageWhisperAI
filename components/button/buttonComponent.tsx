@@ -41,7 +41,7 @@ const ButtonComponent = () => {
                     dispatch(analysisImageSuccess(response.analyzedImageText))
                     console.log(isAnalysis, analysisSuccess)
                 } else {
-                    dispatch(analysisImageFailure(response.error || "An error occurred while processing the image."))
+                    dispatch(analysisImageFailure(response.error || "No worries! Just need to refresh my token to get back on track."))
                 }
             })
             .catch((error) => {
